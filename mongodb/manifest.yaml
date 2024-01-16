@@ -9,7 +9,7 @@ metadata:
     app: mongodb
     tier: DB
 spec:
-  replica: 1
+  replicas: 1
   selector:
     matchLabels:
       project: roboshop
