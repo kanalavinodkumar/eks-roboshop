@@ -1,50 +1,49 @@
----
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: mongodb
+  name: catalogue
   namespace: roboshop
   labels:
     project: roboshop
-    app: mongodb
-    tier: DB
+    app: catalogue
+    tier: app
 spec:
   replicas: 1
   selector:
     matchLabels:
       project: roboshop
-      app: mongodb
-      tier: DB
+      app: catalogue
+      tier: app
   template:
     metadata:
       labels:
         project: roboshop
-        app: mongodb
-        tier: DB
+        app: catalogue
+        tier: app
     spec:
       containers:
-        - name: mongodb
-          image: kanalavinodkumar/mongodb:v1
+        - name: catalogue
+          image: kanalavinodkumar/catalogue:v1
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: mongodb
+  name: catalogue
   namespace: roboshop
   labels:
     project: roboshop
-    app: mongodb
-    tier: DB
+    app: catalogue
+    tier: app
 spec:
   selector:
     # pod -labels
     project: roboshop
-    app: mongodb
-    tier: DB
+    app: catalogue
+    tier: app
   ports:
-  - name: mongodb-port
+  - name: catalogue-port
     protocol: TCP
     # service-port
-    port: 27017
+    port: 8080
     # pod-port
-    targetPort: 27017
+    targetPort: 8080
