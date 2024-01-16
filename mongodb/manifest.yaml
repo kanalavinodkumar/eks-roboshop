@@ -1,6 +1,7 @@
+---
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   name: mongodb
   namespace: roboshop
   labels:
@@ -22,5 +23,5 @@ spec:
         tier: DB
     spec:
       containers:
-      - name: mongodb
-        image: kanalavinodkumar/mongodb:v1
+        - name: mongodb
+          image: kanalavinodkumar/mongodb:v1
