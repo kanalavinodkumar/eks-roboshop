@@ -25,3 +25,24 @@ spec:
       containers:
         - name: mongodb
           image: kanalavinodkumar/mongodb:v1
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mongodb
+  namespace: roboshop
+  labels:
+    project: roboshop
+    app: mongodb
+    tier: DB
+spec:
+  selector:
+    # pod -labels
+    project: roboshop
+  ports:
+  - name: mongodb-port
+    protocol: TCP
+    # service-port
+    port: 27017
+    # pod-port
+    targetPort: 27017
