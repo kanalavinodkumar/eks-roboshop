@@ -1,0 +1,50 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: web
+  namespace: roboshop
+  labels:
+    project: roboshop
+    app: web
+    tier: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      app: web
+      tier: web
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        app: web
+        tier: web
+    spec:
+      containers:
+        - name: web
+          image: kanalavinodkumar/web:v1
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: web
+  namespace: roboshop
+  labels:
+    project: roboshop
+    app: web
+    tier: web
+spec:
+  type: LoadBalancer
+  selector:
+    # pod -labels
+    project: roboshop
+    app: web
+    tier: web
+  ports:
+  - name: web-port
+    protocol: TCP
+    # service-port
+    port: 80
+    # pod-port
+    targetPort: 80
