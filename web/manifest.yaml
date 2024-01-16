@@ -24,7 +24,7 @@ spec:
       containers:
         - name: web
           imagePullPolicy: Always
-          image: kanalavinodkumar/web:v1
+          image: kanalavinodkumar/web:k8
 ---
 kind: Service
 apiVersion: v1
