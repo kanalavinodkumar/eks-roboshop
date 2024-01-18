@@ -44,6 +44,6 @@ spec:
   - name: ratings-port
     protocol: TCP
     # service-port
-    port: 8080
+    port: 80
     # pod-port
-    targetPort: 8080
+    targetPort: 80
