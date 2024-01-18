@@ -33,7 +33,7 @@ spec:
         - name: shipping
           image: kanalavinodkumar/shipping:v1
           envFrom:
-            - configMapRef:
+          - configMapRef:
               name: shipping-config
 ---
 kind: Service
