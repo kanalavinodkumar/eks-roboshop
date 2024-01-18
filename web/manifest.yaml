@@ -1,22 +1,17 @@
----
-kind: ConfigMap
 apiVersion: v1
+kind: ConfigMap
 metadata:
   name: nginx-config
-data:
-  nginx.conf: >
+data: 
+  nginx.conf: |
     user www-data;
-
     worker_processes 4;
-
     pid /var/run/nginx.pid;
-
 
     events {
       worker_connections 768;
       # multi_accept on;
     }
-
 
     http {
 
@@ -96,21 +91,17 @@ data:
             proxy_pass http://user:8080/;
         }
 
-        # location /api/cart/ {
-        #     proxy_pass http://cart:8080/;
-        # }
+        location /api/cart/ {
+            proxy_pass http://cart:8080/;
+        }
 
-        # location /api/shipping/ {
-        #     proxy_pass http://shipping:8080/;
-        # }
+        location /api/shipping/ {
+            proxy_pass http://shipping:8080/;
+        }
 
-        # location /api/payment/ {
-        #     proxy_pass http://payment:8080/;
-        # }
-
-        # location /api/ratings/ {
-        #     proxy_pass http://ratings:80/;
-        # }
+        location /api/payment/ {
+            proxy_pass http://payment:8080/;
+        }
 
         location /nginx_status {
             stub_status on;
@@ -118,67 +109,68 @@ data:
         }
     }
 
-
     }
-
+  
 ---
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: web
   namespace: roboshop
   labels:
-    project: roboshop
     app: web
     tier: web
+    project: roboshop
 spec:
   replicas: 1
   selector:
     matchLabels:
-      project: roboshop
       app: web
       tier: web
+      project: roboshop
   template:
     metadata:
       labels:
-        project: roboshop
         app: web
         tier: web
+        project: roboshop
     spec:
-      containers:
-        - name: web
-          imagePullPolicy: Always
-          image: kanalavinodkumar/web:k8
-          volumeMounts:
-            - name: nginx-config
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
       volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+      containers:
+      - name: web
+        imagePullPolicy: Always
+        image: kanalavinodkumar/web:k8
+        volumeMounts:
         - name: nginx-config
-          ConfigMap:
-            name: nginx-config
-            items:
-              - key: nginx.conf
-                path: nginx.conf
-
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: web
   namespace: roboshop
   labels:
-    project: roboshop
     app: web
     tier: web
+    project: roboshop
 spec:
   type: LoadBalancer
   selector:
-    project: roboshop
+  # you should provide pod labels here
     app: web
     tier: web
+    project: roboshop
   ports:
-    - name: web-port
-      protocol: TCP
-      port: 80
-      targetPort: 80
+  - name: web-port
+    protocol: TCP
+    # service port
+    port: 80
+    # pod port
+    targetPort: 80
