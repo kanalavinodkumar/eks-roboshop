@@ -1,0 +1,49 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: user
+  namespace: roboshop
+  labels:
+    project: roboshop
+    app: user
+    tier: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      app: user
+      tier: app
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        app: user
+        tier: app
+    spec:
+      containers:
+        - name: user
+          image: kanalavinodkumar/user:v1
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: user
+  namespace: roboshop
+  labels:
+    project: roboshop
+    app: user
+    tier: app
+spec:
+  selector:
+    # pod -labels
+    project: roboshop
+    app: user
+    tier: app
+  ports:
+  - name: user-port
+    protocol: TCP
+    # service-port
+    port: 8080
+    # pod-port
+    targetPort: 8080
