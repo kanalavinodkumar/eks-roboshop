@@ -1,17 +1,22 @@
+---
 kind: ConfigMap
 apiVersion: v1
 metadata:
   name: nginx-config
-data: 
-  nginx.conf: |
+data:
+  nginx.conf: >
     user www-data;
+
     worker_processes 4;
+
     pid /var/run/nginx.pid;
+
 
     events {
       worker_connections 768;
       # multi_accept on;
     }
+
 
     http {
 
@@ -113,7 +118,9 @@ data:
         }
     }
 
+
     }
+
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -138,21 +145,22 @@ spec:
         app: web
         tier: web
     spec:
-      volumes:
-      - name: nginx-config
-        ConfigMap:
-          name: nginx-config
-          items:
-          - key: nginx.conf
-            path: nginx.conf
       containers:
         - name: web
           imagePullPolicy: Always
           image: kanalavinodkumar/web:k8
           volumeMounts:
-          - name: nginx-config
-            mountPath: /etc/nginx/nginx.conf
-            subPath: nginx.conf
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+      volumes:
+        - name: nginx-config
+          ConfigMap:
+            name: nginx-config
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+
 ---
 kind: Service
 apiVersion: v1
@@ -166,14 +174,11 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    # pod -labels
     project: roboshop
     app: web
     tier: web
   ports:
-  - name: web-port
-    protocol: TCP
-    # service-port
-    port: 80
-    # pod-port
-    targetPort: 80
+    - name: web-port
+      protocol: TCP
+      port: 80
+      targetPort: 80
