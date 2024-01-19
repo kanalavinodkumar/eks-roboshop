@@ -57,6 +57,6 @@ spec:
   - name: mysql-port
     protocol: TCP
     # service-port
-    port: 27017
+    port: 3306
     # pod-port
-    targetPort: 27017
+    targetPort: 3306
