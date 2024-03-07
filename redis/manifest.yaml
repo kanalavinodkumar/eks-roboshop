@@ -50,6 +50,7 @@ metadata:
     app: redis
     tier: db
 spec:
+  clusterIP: None     #headless
   selector:   # pod labels
     project: roboshop
     app: redis
