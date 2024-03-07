@@ -1,3 +1,16 @@
+#SC
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: efs-dynamic-roboshop-sc
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: fs-07eff18941576cf63
+  directoryPerms: "700"
+  gidRangeStart: "1000" # optional
+  gidRangeEnd: "2000" # optional
+  basePath: "/roboshop" # optional
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -25,6 +38,53 @@ spec:
       containers:
         - name: mongodb
           image: kanalavinodkumar/mongodb:v1
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+  namespace: roboshop
+  labels:
+    project: roboshop
+    app: mongodb
+    tier: DB
+spec:
+  selector:
+    matchLabels:
+      # pod -labels
+      project: roboshop
+      app: mongodb
+      tier: DB
+  serviceName: "mongodb"
+  replicas: 3 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:     # has to match .spec.selector.matchLabels
+        project: roboshop
+        app: mongodb
+        tier: DB 
+    spec:
+      containers:
+      - name: mongodb
+        image: kanalavinodkumar/mongodb:v1
+        # ports:
+        # - containerPort: 80
+        #   name: web
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+  #PVC
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "efs-dynamic-roboshop-sc"
+      resources:
+        requests:
+          storage: 5Gi
+
 ---
 kind: Service
 apiVersion: v1
