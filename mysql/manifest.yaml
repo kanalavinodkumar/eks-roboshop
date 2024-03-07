@@ -38,6 +38,51 @@ spec:
         - configMapRef:
             name: mysql-config
 ---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+
+  labels:
+    project: roboshop
+    app: mysql
+    tier: db
+spec:
+  selector:
+    matchLabels:    # has to match .spec.template.metadata.labels
+      project: roboshop
+      app: mysql
+      tier: db
+  serviceName: "mysql"
+  replicas: 1
+  template:
+    metadata:
+      labels:   # has to match .spec.selector.matchLabels
+        project: roboshop
+        app: mysql
+        tier: db
+    spec:
+      containers:
+      - name: mysql
+        image: kanalavinodkumar/mysql:v1
+        envFrom:
+        - configMapRef:
+            name: mysql-config
+        volumeMounts:
+        - name: mysql
+          mountPath: /data/db
+  # this is PVC
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "roboshop-dynamic-ebs"
+      resources:
+        requests:
+          storage: 5Gi
+---
+---
 apiVersion: v1
 kind: Service
 metadata:
