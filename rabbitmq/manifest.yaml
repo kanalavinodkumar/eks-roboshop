@@ -50,6 +50,7 @@ metadata:
     app: rabbitmq
     tier: db
 spec:
+  clusterIP: None     #headless
   selector:     # pod -labels
     project: roboshop
     app: rabbitmq
