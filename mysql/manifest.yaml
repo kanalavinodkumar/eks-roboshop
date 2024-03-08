@@ -70,7 +70,7 @@ metadata:
   namespace: roboshop
 data:
   MYSQL_ALLOW_EMPTY_PASSWORD: "yes"   #keep in double quotes
-  MYSQL_DATABASE: "cities"
-  MYSQL_USER: "shipping"
-  MYSQL_PASSWORD: "RoboShop@1"
+  MYSQL_DATABASE: cities
+  MYSQL_USER: shipping
+  MYSQL_PASSWORD: secret
 ---
