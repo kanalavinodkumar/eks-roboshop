@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping
+  namespace: roboshop
+  labels:
+    app: shipping
+    tier: app
+    project: roboshop
+spec:
+  replicas: {{ .Values.shipping.replicaCount }}
+  selector:
+    matchLabels:
+      app: shipping
+      tier: app
+      project: roboshop
+  template:
+    metadata:
+      labels:
+        app: shipping
+        tier: app
+        project: roboshop
+    spec:
+      containers:
+      - name: shipping
+        image: kanalavinodkumar/shipping:{{ .Values.shipping.imageVersion }}

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  namespace: roboshop
+  labels:
+    app: payment
+    tier: app
+    project: roboshop
+spec:
+  replicas: {{ .Values.payment.replicaCount }}
+  selector:
+    matchLabels:
+      app: payment
+      tier: app
+      project: roboshop
+  template:
+    metadata:
+      labels:
+        app: payment
+        tier: app
+        project: roboshop
+    spec:
+      containers:
+      - name: payment
+        image: kanalavinodkumar/payment:{{ .Values.payment.imageVersion }}

@@ -1,0 +1,22 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: catalogue
+  namespace: roboshop
+  labels:
+    project: roboshop
+    app: catalogue
+    tier: app
+spec:
+  selector:
+    # pod -labels
+    project: roboshop
+    app: catalogue
+    tier: app
+  ports:
+  - name: catalogue-port
+    protocol: TCP
+    # service-port
+    port: 8080
+    # pod-port
+    targetPort: 8080

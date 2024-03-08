@@ -1,0 +1,22 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: ratings
+  namespace: roboshop
+  labels:
+    project: roboshop
+    app: ratings
+    tier: app
+spec:
+  selector:
+    # pod -labels
+    project: roboshop
+    app: ratings
+    tier: app
+  ports:
+  - name: ratings-port
+    protocol: TCP
+    # service-port
+    port: 8080
+    # pod-port
+    targetPort: 8080

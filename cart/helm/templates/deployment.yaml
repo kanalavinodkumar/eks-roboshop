@@ -1,0 +1,29 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: cart
+  namespace: roboshop
+  labels:
+    project: roboshop
+    app: cart
+    tier: app
+spec:
+  replicas: {{ .Values.cart.replicaCount }}
+  selector:
+    matchLabels:
+      project: roboshop
+      app: cart
+      tier: app
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        app: cart
+        tier: app
+    spec:
+      containers:
+        - name: cart
+          image: kanalavinodkumar/cart:{{ .Values.cart.imageVersion }}
+          envFrom:
+          - configMapRef:
+              name: cart-config

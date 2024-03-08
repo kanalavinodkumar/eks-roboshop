@@ -1,0 +1,5 @@
+apiVersion: v2
+name: cart
+version: 0.0.1  #chart version
+description: This is the helm chart of cart-roboshop
+appVersion: "1.0.0" #application version

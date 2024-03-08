@@ -1,0 +1,3 @@
+web:
+  imageVersion: k8
+  replicaCount: 1

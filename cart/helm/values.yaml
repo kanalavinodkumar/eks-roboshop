@@ -1,0 +1,3 @@
+cart:
+  imageVersion: v1
+  replicaCount: 1

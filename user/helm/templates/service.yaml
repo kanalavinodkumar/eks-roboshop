@@ -1,0 +1,22 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: user
+  namespace: roboshop
+  labels:
+    project: roboshop
+    app: user
+    tier: app
+spec:
+  selector:
+    # pod -labels
+    project: roboshop
+    app: user
+    tier: app
+  ports:
+  - name: user-port
+    protocol: TCP
+    # service-port
+    port: 8080
+    # pod-port
+    targetPort: 8080
