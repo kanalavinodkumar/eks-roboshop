@@ -32,6 +32,13 @@ spec:
       - name: web
         imagePullPolicy: Always
         image: kanalavinodkumar/web:{{ .Values.web.imageVersion }}
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "68Mi"
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
         volumeMounts:
         - name: nginx-config
           mountPath: /etc/nginx/nginx.conf

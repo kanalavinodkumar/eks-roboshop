@@ -24,3 +24,10 @@ spec:
       containers:
         - name: user
           image: kanalavinodkumar/user:{{ .Values.user.imageVersion }}
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "68Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
