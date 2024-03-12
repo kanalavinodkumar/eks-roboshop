@@ -20,4 +20,4 @@ spec:
           service:
             name: catalogue
             port:
-              number: 80
+              number: 8080
