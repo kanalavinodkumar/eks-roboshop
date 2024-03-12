@@ -2,4 +2,4 @@ apiVersion: v2
 name: shipping
 version: 0.0.1  #chart version
 description: This is the helm chart of shipping-roboshop
-appVersion: "1.0.0" #application version
+appVersion: "1.1.0" #application version
